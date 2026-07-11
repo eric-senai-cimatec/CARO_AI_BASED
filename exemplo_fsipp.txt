@@ -1,0 +1,159 @@
+FICHA DE SOLICITAÇÃO DE INOVAÇÃO E PESQUISA PARA PROJETO (FSIPP)
+SENAI CIMATEC — Comitê de Orçamentação e Análise de Propostas (CARO)
+
+════════════════════════════════════════════════════════════════════
+DADOS DO DEMANDANTE
+════════════════════════════════════════════════════════════════════
+
+Empresa:           TechBob Soluções Industriais Ltda.
+Setor:             Indústria de Transformação / Metalurgia
+CNPJ:              12.345.678/0001-90
+Contato:           Maria Fernanda Costa
+Cargo:             Diretora de Inovação e P&D
+E-mail:            mfcosta@techbob.com.br
+Telefone:          (71) 99876-5432
+Endereço:          Av. Paralela, 3200 — Salvador/BA
+
+════════════════════════════════════════════════════════════════════
+INFORMAÇÕES DO PROJETO
+════════════════════════════════════════════════════════════════════
+
+Título do Projeto:
+  Sistema Inteligente de Controle de Qualidade para Produção de Bobinas de Aço
+  com Visão Computacional e Machine Learning
+
+Prazo estimado: 18 meses
+
+TRL atual: 3 (Proof of Concept em laboratório)
+TRL esperado ao final: 6 (Demonstração em ambiente relevante)
+
+Área de conhecimento: Engenharia Elétrica / Inteligência Artificial / Automação Industrial
+
+Tecnologias envolvidas:
+  - Visão computacional (OpenCV, YOLO v8)
+  - Machine Learning (PyTorch, TensorFlow)
+  - Sistemas embarcados (Raspberry Pi 5 / NVIDIA Jetson)
+  - Comunicação industrial (OPC-UA, Modbus TCP)
+  - PLCs Siemens S7-1500
+
+════════════════════════════════════════════════════════════════════
+PROBLEMA / DESAFIO
+════════════════════════════════════════════════════════════════════
+
+A TechBob produz bobinas de aço para o mercado automobilístico e enfrenta 
+rejeição de lotes de até 12% ao mês devido a defeitos superficiais como 
+ondulações, marcas de rolo, porosidade e incrustações que só são detectados 
+visualmente por operadores ao final da linha de produção. Esse processo manual 
+é lento, sujeito à fadiga humana, inconsistente entre turnos e gera retrabalho 
+médio de R$ 1,2M/ano. A empresa não possui atualmente nenhum sistema automatizado 
+de inspeção inline e deseja reduzir a taxa de defeitos escapados para abaixo de 2%.
+
+════════════════════════════════════════════════════════════════════
+OBJETIVO DO PROJETO
+════════════════════════════════════════════════════════════════════
+
+Desenvolver, em 18 meses, um sistema automatizado de controle de qualidade inline
+baseado em visão computacional e machine learning capaz de detectar e classificar
+defeitos superficiais em bobinas de aço em tempo real (latência < 200ms por frame),
+integrado à linha de produção existente via protocolo OPC-UA, reduzindo a taxa de
+defeitos escapados de 12% para menos de 2% e gerando relatórios automáticos de
+rastreabilidade de lote.
+
+════════════════════════════════════════════════════════════════════
+BENEFÍCIOS ESPERADOS
+════════════════════════════════════════════════════════════════════
+
+1. Redução de 83% na taxa de defeitos escapados (de 12% para <2%)
+2. Economia estimada de R$ 1,0M/ano em retrabalho e recalls
+3. Eliminação de inspeção visual manual ao final da linha (3 postos)
+4. Rastreabilidade completa de defeitos por lote e turno
+5. Redução do índice de reclamações de clientes do setor automotivo
+6. Base de dados histórica de defeitos para melhoria contínua do processo
+7. Transferência de know-how em IA industrial para a equipe técnica da TechBob
+8. Melhoria do indicador OEE (Overall Equipment Effectiveness) da linha
+
+════════════════════════════════════════════════════════════════════
+PRODUTOS / ENTREGAS
+════════════════════════════════════════════════════════════════════
+
+Entrega 1: Relatório de levantamento de defeitos e definição de dataset de treinamento
+Entrega 2: Dataset rotulado com >10.000 imagens de defeitos reais catalogados
+Entrega 3: Modelo de detecção de defeitos treinado e validado (acurácia >95%)
+Entrega 4: Protótipo de hardware embarcado com câmeras industriais instalado
+Entrega 5: Software de controle, dashboard em tempo real e integração OPC-UA
+Entrega 6: Sistema integrado instalado e validado em ambiente produtivo
+Entrega 7: Treinamento da equipe técnica da TechBob (operação e manutenção)
+Entrega 8: Manual técnico e relatório final com indicadores de desempenho
+
+════════════════════════════════════════════════════════════════════
+REQUISITOS DO PROJETO
+════════════════════════════════════════════════════════════════════
+
+REQ-01: Latência de inferência < 200ms por frame a 60fps
+REQ-02: Acurácia de detecção > 95% para os 8 tipos de defeitos catalogados
+REQ-03: Integração com PLC Siemens S7-1500 via OPC-UA sem parada de linha
+REQ-04: Operação em ambiente industrial (temperatura 20–60°C, IP65)
+REQ-05: Dashboard web acessível em rede interna sem internet
+REQ-06: Geração de relatórios PDF automáticos por turno e lote
+REQ-07: Armazenamento local de imagens por 90 dias (LGPD)
+REQ-08: Tempo médio entre falhas (MTBF) > 2.000 horas
+
+════════════════════════════════════════════════════════════════════
+RISCOS TECNOLÓGICOS
+════════════════════════════════════════════════════════════════════
+
+- Variação de iluminação na linha pode impactar a acurácia do modelo de CV
+- Velocidade da linha (>200m/min) pode exigir câmeras de alto custo (>R$ 80k)
+- Dataset inicial pode ser insuficiente para defeitos raros (data augmentation necessária)
+- Latência OPC-UA pode ser impactada em redes industriais com alta carga
+- Integração com PLC legado pode exigir gateway de protocolo adicional
+
+════════════════════════════════════════════════════════════════════
+PREMISSAS
+════════════════════════════════════════════════════════════════════
+
+- A TechBob disponibilizará acesso irrestrito à linha de produção durante o projeto
+- A empresa fornecerá amostras físicas de bobinas com defeitos catalogados para o dataset
+- Haverá um interlocutor técnico da TechBob dedicado ao projeto (mínimo 20h/mês)
+- A rede industrial (OPC-UA) estará disponível para integração com o CIMATEC
+- Ajustes de processo produtivo, se necessários, serão realizados pela própria TechBob
+- O ambiente de instalação definitivo estará disponível no 12º mês para testes integrados
+- Qualquer aquisição de equipamento acima de R$ 30k será aprovada formalmente pela diretoria
+
+════════════════════════════════════════════════════════════════════
+PREMISSAS ESPECÍFICAS PARA MACHINE LEARNING
+════════════════════════════════════════════════════════════════════
+
+- A acurácia de 95% é definida como F1-score no conjunto de validação holdout
+- O modelo será retreinado periodicamente à medida que novos defeitos surgirem
+- O cliente aceita falsos positivos (parada desnecessária) como tradeoff por segurança
+- GPU para treinamento será provida pela infraestrutura de HPC do SENAI CIMATEC
+- Os dados de imagem gerados em produção são propriedade da TechBob (LGPD)
+
+════════════════════════════════════════════════════════════════════
+EXCLUSÕES DO ESCOPO
+════════════════════════════════════════════════════════════════════
+
+- Manutenção preditiva de equipamentos da linha de laminação
+- Controle de processo (velocidade, temperatura) — apenas inspeção visual
+- Integração com ERP/MES — apenas exportação CSV/PDF dos relatórios
+- Treinamento de modelos para outros produtos além de bobinas de aço carbono
+- Infraestrutura de rede industrial (responsabilidade da TechBob)
+
+════════════════════════════════════════════════════════════════════
+COMENTÁRIOS FINAIS / OBSERVAÇÕES
+════════════════════════════════════════════════════════════════════
+
+- A TechBob tem interesse em publicar resultados em conjunto com o CIMATEC
+- Existe possibilidade de extensão do projeto para a linha de galvanização
+- O orçamento total aprovado pela diretoria da TechBob é de até R$ 1,5M
+
+════════════════════════════════════════════════════════════════════
+ORGANIZAÇÃO INTERNA
+════════════════════════════════════════════════════════════════════
+
+Interlocutor CIMATEC com a empresa: Prof. Dr. Carlos Mendonça (LARIS)
+Responsável pelo orçamento: Coord. Financeiro — Eng. Ricardo Leal
+Áreas partícipes: LARIS (Lab. de IA e Robótica), LEIAM (Manufatura), Núcleo Jurídico
+
+Data de elaboração: Julho de 2025
