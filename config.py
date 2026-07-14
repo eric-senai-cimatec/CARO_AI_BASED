@@ -27,16 +27,16 @@ GROQ_BASE_URL: str = "https://api.groq.com/openai/v1"
 
 # Modelos disponíveis na Groq (2025)
 GROQ_MODELS = {
-    "fast": "meta-llama/llama-4-scout-17b-16e-instruct",
-    "balanced": "meta-llama/llama-4-scout-17b-16e-instruct",
-    "powerful": "meta-llama/llama-4-scout-17b-16e-instruct",
-    "coder": "meta-llama/llama-4-scout-17b-16e-instruct",
+    "fast": "openai/gpt-oss-120b",
+    "balanced": "openai/gpt-oss-120b",
+    "powerful": "openai/gpt-oss-120b",
+    "coder": "openai/gpt-oss-120b",
 }
 
 # Nome exato aceito pela API Groq (sem prefixo "meta-llama/")
 DEFAULT_MODEL = os.getenv("GROQ_MODEL", GROQ_MODELS["balanced"])
 MAX_TOKENS_DEFAULT = 4096
-TEMPERATURE_DEFAULT = 0.3
+TEMPERATURE_DEFAULT = 0.7
 TEMPERATURE_CREATIVE = 0.7
 
 
@@ -69,7 +69,7 @@ CARO_SECTIONS = [
 ]
 
 # Slides que NÃO devem ser editados automaticamente (apenas visuais/internos)
-PROTECTED_SLIDES = [3, 13, 14, 15, 16, 17, 18, 24, 29, 32, 33, 34, 35]
+PROTECTED_SLIDES = []  # [3, 13, 14, 15, 16, 17, 18, 24, 29, 32, 33, 34, 35]
 
 # Mapeamento slide → campo principal de conteúdo
 SLIDE_CONTENT_MAP = {

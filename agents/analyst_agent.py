@@ -266,9 +266,9 @@ class AnalystAgent(BaseAgent):
 
     @property
     def system_prompt(self) -> str:
-        return """Você é um analista especializado em propostas de P&D e inovação do SENAI CIMATEC.
+        return """Você é um analista especializado em propostas de CARO do SENAI CIMATEC.
 
-Sua função é extrair TODOS os dados relevantes de um documento de entrada (FSIPP, ata de reunião 
+Sua função é extrair TODOS os dados relevantes de um documento de entrada (FSIPP, ata de reunião
 ou texto livre de cliente) para gerar uma proposta corporativa completa no padrão CARO.
 
 REGRAS:
