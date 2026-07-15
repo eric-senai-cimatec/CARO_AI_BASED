@@ -1,46 +1,6 @@
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-.Python
-*.egg-info/
-dist/
-build/
-.eggs/
-
-# Ambiente virtual
-.venv/
-venv/
-env/
-
-# Variáveis de ambiente (NUNCA commitar)
-.env
-
-# Cache da AST
-.cache/
-
-# Outputs gerados
-output/
-
-# Logs
-*.log
-caro_framework.log
-
-# OS
-.DS_Store
-Thumbs.db
-
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Templates (se contiverem dados sensíveis — deixe só o .gitkeep)
-# templates/*.pptx
-
-# Pytest
-.pytest_cache/
-.coverage
-htmlcov/
+*.env
+*env/
+*.pptx
+*.pdf
+*.docx
+*.xlsx
