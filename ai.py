@@ -14,7 +14,7 @@ class CAROAgent:
         prompt = self._build_prompt(pdf_text, slides)
 
         response = self.client.chat.completions.create(
-            model="meta-llama/llama-4-scout-17b-16e-instruct",
+            model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
             response_format={"type": "json_object"},
