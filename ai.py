@@ -110,7 +110,6 @@ class CAROAgent:
     -Responsável Orçamento
     -Áreas partícipes
 
-
     "Problema"
     → Justificativa da ideia
     → Dor do cliente
@@ -166,20 +165,23 @@ class CAROAgent:
 
     "Entregas Principais"
     → Entregas do projeto
+    → Macroentrega 1, 2, 3, etc.
 
     "Organograma Funcional (EXCLUSIVO E INTERNO AO COMITÊ SENAI CIMATEC)"
-    → Exemplo: Líder Técnico
-            Gerente de Área Líder
-                Gerente do Projeto
-                Analista Financeiro
-                BigData
-                    Bolsista
-                    Especialista I
-                    Especialista II
-                        Estagiário
+    → Exemplo: Líder Técnico >
+            > Gerente de Área Líder
+                > Gerente do Projeto
+                > Analista Financeiro
+                > BigData
+                    > Bolsista
+                    > Especialista I
+                    > Especialista II
+                        > Estagiário
+    → Formato de organograma
 
     "Orçamento (EXCLUSIVO E INTERNO AO COMITÊ SENAI CIMATEC)"
     → Exemplo: Recursos financeiros em tabela, com valores totais e distribuição.
+    → Formato de tabela
 
     "Forma de Financiamento"
     → EMBRAPII

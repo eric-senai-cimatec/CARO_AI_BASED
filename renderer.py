@@ -4,6 +4,7 @@ from pptx import Presentation
 
 
 def render(template_path: str, content: dict):
+    """Renderiza o conteúdo gerado pela IA no template PowerPoint e salva o arquivo resultante."""
     prs = Presentation(template_path)
 
     for slide_data in content.get("slides", []):

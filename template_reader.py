@@ -2,6 +2,7 @@
 
 
 def extract_template(template_path: str) -> list:
+    """Extrai informações do template PowerPoint, incluindo títulos e placeholders de cada slide."""
     prs = Presentation(template_path)
     slides_info = []
 
