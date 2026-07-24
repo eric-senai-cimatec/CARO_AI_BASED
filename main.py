@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from pdf_reader import extract_pdf_text
 from template_reader import extract_template
 from ai import CAROAgent
-from renderer import render
+from ppt.renderer import render
 
 
 def main():
