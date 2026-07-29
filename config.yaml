@@ -1,0 +1,21 @@
+﻿llm:
+  # Provedor do modelo de linguagem. Pode ser openai ou outro serviço compatível.
+  provider: openai
+  # Modelo de LLM utilizado para gerar respostas.
+  model: gpt-5.4-nano
+  # Temperatura controla a aleatoriedade da geração de texto.
+  # Valores baixos (ex: 0.2) produzem respostas mais previsíveis,
+  # valores mais altos (ex: 0.7) geram respostas mais criativas.
+  temperature: 0.7
+
+rag:
+  # Caminho para a base de conhecimento ou documento usado no RAG.
+  knowledge_base: rag/rag.docx
+  # Nome da coleção usada para indexar e buscar informações.
+  collection_name: rag_knowledge
+  # Tamanho de cada trecho de texto gerado a partir da base de conhecimento.
+  chunk_size: 1000
+  # Sobreposição entre trechos consecutivos para manter contexto.
+  chunk_overlap: 200
+  # Número de resultados mais relevantes retornados na busca.
+  top_k: 5

@@ -1,29 +1,97 @@
 ﻿import json
 import os
-from groq import Groq
+from openai import OpenAI
+import chromadb
+from chromadb.utils import embedding_functions
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class CAROAgent:
-    def __init__(self):
-        api_key = os.getenv("GROQ_API_KEY")
+    def __init__(self, config: dict):
+        api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
-            raise ValueError("GROQ_API_KEY nao encontrada no arquivo .env")
-        self.client = Groq(api_key=api_key)
+            raise ValueError("OPENAI_API_KEY nao encontrada no arquivo .env")
+        self.client = OpenAI(api_key=api_key)
+        self.model = config.get("model")
+        self.temperature = config.get("temperature")
+        self.top_k = config.get("top_k")
+        self.collection_name = config.get("collection_name")
+        self.chunk_size = config.get("chunk_size")
+        self.chunk_overlap = config.get("chunk_overlap")
+        self.knowledge_base_path = config.get("knowledge_base")
 
-    def generate(self, pdf_text: str, slides: list) -> dict:
-        prompt = self._build_prompt(pdf_text, slides)
+        self.chroma_client = chromadb.Client()
+        self.embed_func = embedding_functions.OpenAIEmbeddingFunction(
+            api_key=api_key,
+            model_name="text-embedding-ada-002",
+        )
+        self.collection = self._get_or_create_collection()
+
+    def _get_or_create_collection(self):
+        try:
+            collection = self.chroma_client.get_collection(
+                name=self.collection_name,
+                embedding_function=self.embed_func,
+            )
+            if collection.count() > 0:
+                return collection
+        except Exception:
+            pass
+        collection = self.chroma_client.create_collection(
+            name=self.collection_name,
+            embedding_function=self.embed_func,
+        )
+        self._populate_rag(collection)
+        return collection
+
+    def _populate_rag(self, collection):
+        if not os.path.exists(self.knowledge_base_path):
+            return
+        from reader import extract_text
+        text = extract_text(self.knowledge_base_path)
+        chunks = self._chunk_text(text)
+        for i, chunk in enumerate(chunks):
+            collection.add(
+                documents=[chunk],
+                ids=[f"chunk_{i}"],
+            )
+
+    def _chunk_text(self, text: str) -> list:
+        words = text.split()
+        chunks = []
+        for i in range(0, len(words), self.chunk_size - self.chunk_overlap):
+            chunk_words = words[i:i + self.chunk_size]
+            if chunk_words:
+                chunks.append(" ".join(chunk_words))
+        return chunks
+
+    def _retrieve(self, query: str, n_results: int = None) -> str:
+        if n_results is None:
+            n_results = self.top_k
+        results = self.collection.query(
+            query_texts=[query],
+            n_results=n_results,
+        )
+        documents = results.get("documents", [[]])[0]
+        return "\n\n".join(documents)
+
+    def generate(self, fsipp_text: str, slides: list) -> dict:
+        rag_context = self._retrieve(fsipp_text)
+        prompt = self._build_prompt(fsipp_text, slides, rag_context)
 
         response = self.client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model=self.model,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.7,
+            temperature=self.temperature,
             response_format={"type": "json_object"},
         )
 
         content = response.choices[0].message.content
         return json.loads(content)
 
-    def _build_prompt(self, pdf_text: str, slides: list) -> str:
+    def _build_prompt(self, fsipp_text: str, slides: list, rag_context: str) -> str:
         slides_desc = json.dumps(slides, indent=2, ensure_ascii=False)
         print(f"Slides description: {slides_desc}")
 
@@ -33,6 +101,8 @@ Voce é um consultor senior do SENAI CIMATEC especializado na elaboracao de apre
 
 Sua funcao é transformar um documento FSIPP em uma apresentacao CARO utilizando o template fornecido.
 
+USE INFORMACOES DO BANCO DE CONHECIMENTO RAG QUANDO COMPLEMENTAREM O CONTEUDO DO FSIPP.
+
 ========================
 OBJETIVO
 ========================
@@ -40,12 +110,13 @@ OBJETIVO
 Voce recebera:
 
 1. O texto completo do FSIPP.
-2. A estrutura do template PowerPoint.
+2. O contexto relevante do banco de conhecimento RAG.
+3. A estrutura do template PowerPoint.
 
 Cada slide do template ja possui um titulo que representa um assunto especifico da proposta.
 
-Sua missao e interpretar o significado de cada titulo e selecionar, dentre todas as informacoes do FSIPP,
-apenas aquelas que realmente pertencem aquele slide.
+Sua missao e interpretar o significado de cada titulo e selecionar, dentre todas as informacoes do FSIPP
+e do banco de conhecimento RAG, apenas aquelas que realmente pertencem aquele slide.
 
 Nao copie informacoes aleatoriamente.
 
@@ -55,20 +126,20 @@ Pense como um especialista elaborando uma proposta tecnica.
 REGRAS IMPORTANTES
 ========================
 
-1. Utilize EXCLUSIVAMENTE informacoes presentes no FSIPP.
+1. Utilize EXCLUSIVAMENTE informacoes presentes no FSIPP e no banco de conhecimento RAG.
 
-2. Nunca invente dados.
+2. Nao invente dados.
 
-3. Nunca deduza informacoes inexistentes.
+3. Nao deduza informacoes inexistentes.
 
 4. Cada slide possui um proposito especifico.
-Analise o titulo do slide e determine quais partes do FSIPP sao relevantes.
+Analise o titulo do slide e determine quais partes do FSIPP e do RAG sao relevantes.
 
 5. O mesmo texto NAO deve ser repetido em varios slides.
 
-6. Distribua as informacoes do FSIPP de forma coerente ao longo da apresentacao.
+6. Distribua as informacoes do FSIPP e do RAG de forma coerente ao longo da apresentacao.
 
-7. Caso o FSIPP nao possua informacao suficiente para um slide,
+7. Caso o FSIPP e o RAG nao possuam informacao suficiente para um slide,
 retorne content vazio (ex: "content": {{}}).
 
 8. Mantenha o titulo exatamente igual ao titulo existente no template.
@@ -352,7 +423,13 @@ Formato obrigatorio:
 FSIPP
 ========================
 
-{pdf_text}
+{fsipp_text}
+
+========================
+CONHECIMENTO RAG
+========================
+
+{rag_context}
 
 ========================
 ESTRUTURA DO TEMPLATE
@@ -362,5 +439,5 @@ ESTRUTURA DO TEMPLATE
 
 Antes de preencher qualquer slide, leia TODOS os titulos do template para compreender a estrutura completa da apresentacao.
 
-Depois distribua as informacoes do FSIPP de forma logica, preenchendo cada slide apenas com o conteudo mais adequado ao seu titulo.
+Depois distribua as informacoes do FSIPP e do banco de conhecimento RAG de forma logica, preenchendo cada slide apenas com o conteudo mais adequado ao seu titulo.
 """
