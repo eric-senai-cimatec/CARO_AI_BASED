@@ -1,4 +1,4 @@
-﻿import json
+import json
 import os
 from openai import OpenAI
 import chromadb
@@ -96,10 +96,10 @@ class CAROAgent:
         print(f"Slides description: {slides_desc}")
 
         return f"""
-Voce é um consultor senior do SENAI CIMATEC especializado na elaboracao de apresentacoes CARO
+Voce Ã© um consultor senior do SENAI CIMATEC especializado na elaboracao de apresentacoes CARO
 (Catalogo de Apresentacao de Oportunidades) para projetos de Pesquisa, Desenvolvimento e Inovacao (PD&I).
 
-Sua funcao é transformar um documento FSIPP em uma apresentacao CARO utilizando o template fornecido.
+Sua funcao Ã© transformar um documento FSIPP em uma apresentacao CARO utilizando o template fornecido.
 
 USE INFORMACOES DO BANCO DE CONHECIMENTO RAG QUANDO COMPLEMENTAREM O CONTEUDO DO FSIPP.
 
@@ -180,20 +180,20 @@ O sistema de renderizacao decide como desenhar.
 LAYOUTS DISPONIVEIS
 ========================
 
-"bullet" — texto com marcadores (padrao)
-"workflow" — fluxograma de processos com timeline
-"timeline" — linha do tempo horizontal com marcos
-"orgchart" — organograma hierarquico
-"gantt" — cronograma / grafico de Gantt
-"table" — tabela com cabecalhos e linhas
-"image" — slide com imagem e legenda
+"bullet" â€” texto com marcadores (padrao)
+"workflow" â€” fluxograma de processos com timeline
+"timeline" â€” linha do tempo horizontal com marcos
+"orgchart" â€” organograma hierarquico
+"gantt" â€” cronograma / grafico de Gantt
+"table" â€” tabela com cabecalhos e linhas
+"image" â€” slide com imagem e legenda
 
 ========================
 COMO ESCOLHER O LAYOUT
 ========================
 
 - "Concepcao da Proposta" → layout "workflow"
-- "Planejamento / Cronograma" → layout "gantt"
+- "Planejamento / Cronograma" → layout "table"
 - "Organograma Funcional" → layout "orgchart"
 - "Orcamento" → layout "table"
 - Demais slides → layout "bullet"
@@ -260,12 +260,26 @@ ESTRUTURA DE CADA LAYOUT
 {{
     "layout": "gantt",
     "content": {{
+        "start_label": "março/2027",
         "phases": [
-            {{"name": "Fase 1", "start": "Mes 1", "end": "Mes 3"}},
-            {{"name": "Fase 2", "start": "Mes 4", "end": "Mes 6"}}
+            {{"name": "Mês 1", "start": "Mês 1", "end": "Mês 1", "tasks": ["Atividade A", "Atividade B"]}},
+            {{"name": "Mês 2-3", "start": "Mês 2", "end": "Mês 3", "tasks": ["Atividade C"]}}
         ]
     }}
 }}
+
+- "start_label": obrigatório. Ex: "março/2027"
+- "phases": lista de fases com:
+  - "name": nome da fase/mês (ex: "Mês 1", "Mês 2-4", "Fase de Desenvolvimento")
+  - "start": número do mês inicial (ex: "Mês 1")
+  - "end": número do mês final (ex: "Mês 3")
+  - "tasks": array opcional de atividades descritivas para a fase
+
+IMPORTANTE: Crie fases para CADA mês individualmente sempre que houver atividades
+descritas no documento. Exemplo: se o cronograma descreve atividades para os meses
+1 a 4, crie 4 fases (Mês 1, Mês 2, Mês 3, Mês 4) com suas respectivas tasks.
+Se houver meses consecutivos com a mesma descriçÃ£o de atividade, agrupe em
+uma Ãºnica fase (ex: "Mês 2-4").
 
 **table:**
 {{
@@ -278,6 +292,23 @@ ESTRUTURA DE CADA LAYOUT
         ]
     }}
 }}
+
+Para "Planejamento / Cronograma", use o formato de tabela com mês e atividades:
+{{
+    "layout": "table",
+    "content": {{
+        "headers": ["Mês", "Atividades"],
+        "rows": [
+            ["Mês 1 (mar/2027)", "Descrição das atividades do Mês 1"],
+            ["Mês 2 (abr/2027)", "Descrição das atividades do Mês 2"],
+            ["Mês 3 (mai/2027)", "Descrição das atividades do Mês 3"]
+        ]
+    }}
+}}
+
+Crie uma linha para CADA mês do cronograma.
+Na coluna "Mês" inclua o número do mês e o mês/ano real.
+Na coluna "Atividades" descreva resumidamente as atividades daquele mês.
 
 **image:**
 {{
@@ -310,7 +341,7 @@ Exemplos:
 "Organizacao interna no atendimento da proposta"
 -Interlocutor com a empresa
 -Responsavel Orcamento
--Areas partícipes
+-Areas partÃ­cipes
 
 "Problema"
 → Justificativa da ideia
@@ -362,9 +393,11 @@ Exemplos:
 → O que nao sera entregue
 
 "Planejamento / Cronograma"
-→ Duracao
-→ Inicio previsto
-
+→ Duração prevista (meses) — ex: 18 meses
+→ Início previsto (mês/ano) — ex: março de 2027
+→ Atividades descritas por mês
+→ Crie uma linha na tabela para CADA mês do cronograma
+→ layout "table" com headers ["Mês", "Atividades"]
 "Entregas Principais"
 → Entregas do projeto
 → Macroentrega 1, 2, 3, etc.

@@ -9,6 +9,10 @@ class BulletRenderer(BaseRenderer):
             return
 
         body_text = content.get("body", "")
+        if isinstance(body_text, list):
+            body_text = "\n".join(str(i) for i in body_text if i)
+        elif isinstance(body_text, dict):
+            body_text = str(body_text)
         if not body_text:
             return
 

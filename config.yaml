@@ -2,11 +2,11 @@
   # Provedor do modelo de linguagem. Pode ser openai ou outro serviço compatível.
   provider: openai
   # Modelo de LLM utilizado para gerar respostas.
-  model: gpt-5.4-nano
+  model: gpt-5.4-mini
   # Temperatura controla a aleatoriedade da geração de texto.
   # Valores baixos (ex: 0.2) produzem respostas mais previsíveis,
   # valores mais altos (ex: 0.7) geram respostas mais criativas.
-  temperature: 0.7
+  temperature: 0.8
 
 rag:
   # Caminho para a base de conhecimento ou documento usado no RAG.
