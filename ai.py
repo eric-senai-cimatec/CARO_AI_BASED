@@ -96,10 +96,10 @@ class CAROAgent:
         print(f"Slides description: {slides_desc}")
 
         return f"""
-Voce Ã© um consultor senior do SENAI CIMATEC especializado na elaboracao de apresentacoes CARO
+Voce é um consultor senior do SENAI CIMATEC especializado na elaboracao de apresentacoes CARO
 (Catalogo de Apresentacao de Oportunidades) para projetos de Pesquisa, Desenvolvimento e Inovacao (PD&I).
 
-Sua funcao Ã© transformar um documento FSIPP em uma apresentacao CARO utilizando o template fornecido.
+Sua funcao é transformar um documento FSIPP em uma apresentacao CARO utilizando o template fornecido.
 
 USE INFORMACOES DO BANCO DE CONHECIMENTO RAG QUANDO COMPLEMENTAREM O CONTEUDO DO FSIPP.
 
@@ -244,14 +244,24 @@ ESTRUTURA DE CADA LAYOUT
 {{
     "layout": "orgchart",
     "content": {{
-        "root": "CEO",
-        "children": [
-            {{
-                "name": "Diretor",
-                "children": [
-                    {{"name": "Gerente"}}
-                ]
-            }}
+        "nodes": [
+            {{"id": "1", "text": "Lider Tecnico"}},
+            {{"id": "2", "text": "Gerente Executivo"}},
+            {{"id": "3", "text": "Gerente do Projeto"}},
+            {{"id": "4", "text": "Financeiro"}},
+            {{"id": "5", "text": "Big Data"}},
+            {{"id": "6", "text": "Especialista II"}},
+            {{"id": "7", "text": "Especialista I"}},
+            {{"id": "8", "text": "Bolsista"}}
+        ],
+        "edges": [
+            {{"from": "1", "to": "2"}},
+            {{"from": "2", "to": "3"}},
+            {{"from": "3", "to": "4"}},
+            {{"from": "3", "to": "5"}},
+            {{"from": "5", "to": "6"}},
+            {{"from": "5", "to": "7"}},
+            {{"from": "5", "to": "8"}}
         ]
     }}
 }}
@@ -341,7 +351,7 @@ Exemplos:
 "Organizacao interna no atendimento da proposta"
 -Interlocutor com a empresa
 -Responsavel Orcamento
--Areas partÃ­cipes
+-Areas parti­cipes
 
 "Problema"
 → Justificativa da ideia
@@ -403,16 +413,9 @@ Exemplos:
 → Macroentrega 1, 2, 3, etc.
 
 "Organograma Funcional (EXCLUSIVO E INTERNO AO COMITE SENAI CIMATEC)"
-→ Exemplo: Lider Tecnico >
-        > Gerente de Area Lider
-            > Gerente do Projeto
-            > Analista Financeiro
-            > BigData
-                > Bolsista
-                > Especialista II
-                > Especialista I
-                    > Estagiario
-→ layout "orgchart"
+→ Estrutura hierárquica com líderes, gerentes e analistas
+→ layout "orgchart" com nodes e edges (formato array)
+→ Exemplo: Líder Técnico > Gerente Área Líder > Gerente Projeto > [Financeiro, BigData] > [Especialistas, Bolsista]
 
 "Orcamento (EXCLUSIVO E INTERNO AO COMITE SENAI CIMATEC)"
 → Exemplo: Recursos financeiros em tabela, com valores totais e distribuicao.
